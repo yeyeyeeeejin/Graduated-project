@@ -1,52 +1,111 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import {StyleSheet, Text, View} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
-const ChatScreen= () => {
+const ChatScreen= (route) => {
   const [messages, setMessages] = useState([]);
- useEffect(() => {
-    setMessages([
-         {
-            _id: 0, 
-            text: '부적절하거나 불쾌감을 줄 수 있는 대화는 삼가 부탁드립니다.', 
-            createdAt: new Date().getTime(), 
-            system: true, 
-          },
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-      {
-        _id: 2,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+  const {uid} = route.params;
+  const getAllMessages = async ()=>{
+     const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
+     const querySanp = await firestore().collection('chatrooms')
+     .doc(docid)
+     .collection('messages')
+     .orderBy('createdAt',"desc")
+     .get()
+    const allmsg =   querySanp.docs.map(docSanp=>{
+         return {
+             ...docSanp.data(),
+             createdAt:docSanp.data().createdAt.toDate()
+         }
+     })
+     setMessages(allmsg)
 
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  }, [])
-  return (
-    
-    <GiftedChat
-    messages={messages}
-    onSend={messages => onSend(messages)}
-    user={{
-      _id: 1,
-    }}
-  />
-    );
-  };
+ 
+  }
+ useEffect(() => {
+   // getAllMessages()
+
+   const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
+     const messageRef = firestore().collection('chatrooms')
+     .doc(docid)
+     .collection('messages')
+     .orderBy('createdAt',"desc")
+
+   const unSubscribe =  messageRef.onSnapshot((querySnap)=>{
+         const allmsg =   querySnap.docs.map(docSanp=>{
+          const data = docSanp.data()
+          if(data.createdAt){
+              return {
+                 ...docSanp.data(),
+                 createdAt:docSanp.data().createdAt.toDate()
+             }
+          }else {
+             return {
+                 ...docSanp.data(),
+                 createdAt:new Date()
+             }
+          }
+             
+         })
+         setMessages(allmsg)
+     })
+
+
+     return ()=>{
+       unSubscribe()
+     }
+
+     
+   }, [])
+
+   const onSend =(messageArray) => {
+     const msg = messageArray[0]
+     const mymsg = {
+         ...msg,
+         sentBy:user.uid,
+         sentTo:uid,
+         createdAt:new Date()
+     }
+    setMessages(previousMessages => GiftedChat.append(previousMessages,mymsg))
+    const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
+
+    firestore().collection('chatrooms')
+    .doc(docid)
+    .collection('messages')
+    .add({...mymsg,createdAt:firestore.FieldValue.serverTimestamp()})
+
+
+   }
+ return (
+     <View style={{flex:1,backgroundColor:"#f5f5f5"}}>
+        <GiftedChat
+             messages={messages}
+             onSend={text => onSend(text)}
+             user={{
+                 _id: user.uid,
+             }}
+             renderBubble={(props)=>{
+                 return <Bubble
+                 {...props}
+                 wrapperStyle={{
+                   right: {
+                     backgroundColor:"green",
+
+                   }
+                   
+                 }}
+               />
+             }}
+
+             renderInputToolbar={(props)=>{
+                 return <InputToolbar {...props}
+                  containerStyle={{borderTopWidth: 1.5, borderTopColor: 'green'}} 
+                  textInputStyle={{ color: "black" }}
+                  />
+             }}
+             
+             />
+     </View>
+ )
+}
 
 export default ChatScreen;

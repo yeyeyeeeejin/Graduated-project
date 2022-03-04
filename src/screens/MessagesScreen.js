@@ -1,94 +1,80 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
-import {
-  Container,
-  Card,
-  UserInfo,
-  UserImgWrapper,
-  UserImg,
-  UserInfoText,
-  UserName,
-  PostTime,
-  MessageText,
-  TextSection,
-} from '../../styles/MessageStyles';
-
-const Messages = [
-  {
-    id: '1',
-    userName: 'Jenny Doe',
-    userImg: require('../../assets/users/user-3.jpg'),
-    messageTime: '4 mins ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '2',
-    userName: 'John Doe',
-    userImg: require('../../assets/users/user-1.jpg'),
-    messageTime: '2 hours ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '3',
-    userName: 'Ken William',
-    userImg: require('../../assets/users/user-4.jpg'),
-    messageTime: '1 hours ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '4',
-    userName: 'Selina Paul',
-    userImg: require('../../assets/users/user-6.jpg'),
-    messageTime: '1 day ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '5',
-    userName: 'Christy Alex',
-    userImg: require('../../assets/users/user-7.jpg'),
-    messageTime: '2 days ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-];
-
+import React,{useState,useEffect,useContext} from 'react'
+import { View, Text ,Image,FlatList,StyleSheet,TouchableOpacity} from 'react-native'
+import firestore from '@react-native-firebase/firestore'
+import {FAB} from 'react-native-paper'
+import { AuthContext } from '../utils/AuthProvider'
 const MessagesScreen = ({navigation}) => {
-    return (
-      <Container>
-        <FlatList 
-          data={Messages}
-          keyExtractor={item=>item.id}
-          renderItem={({item}) => (
-            <Card onPress={() => navigation.navigate('CHAT', {userName: item.userName})}>
-              <UserInfo>
-                <UserImgWrapper>
-                  <UserImg source={item.userImg} />
-                </UserImgWrapper>
-                <TextSection>
-                  <UserInfoText>
-                    <UserName>{item.userName}</UserName>
-                    <PostTime>{item.messageTime}</PostTime>
-                  </UserInfoText>
-                  <MessageText>{item.messageText}</MessageText>
-                </TextSection>
-              </UserInfo>
-            </Card>
-          )}
-        />
-      </Container>
-    );
-};
+    // console.log(user)
+    const [users,setUsers] = useState(null)
+    const {user, logout} = useContext(AuthContext);
+    const getUsers = async ()=>{
+             const querySanp = await firestore().collection('users').where('userId','!=',user.uid).get()
+             const allusers = querySanp.docs.map(docSnap=>docSnap.data())
+            //  console.log(allusers)
+            setUsers(allusers)
+    }
 
+    useEffect(()=>{
+        getUsers()
+    },[])
+
+    const RenderCard = ({item})=>{
+          return (
+              <TouchableOpacity onPress={()=>navigation.navigate('CHAT',{name:item.name,userId:item.userId,
+                
+            })}>
+              <View style={styles.mycard}>
+                  <Image source={{uri:item.userImg}} style={styles.img}/>
+                  <View>
+                      <Text style={styles.text}>
+                          {item.name}
+                      </Text>
+                      <Text style={styles.text}>
+                          {item.email}
+                      </Text>
+                  </View>
+              </View>
+              </TouchableOpacity>
+          )
+    }
+    return (
+        <View style={{flex:1}}>
+            <FlatList 
+              data={users}
+              renderItem={({item})=> {return <RenderCard item={item} /> }}
+              keyExtractor={(item)=>item.userId}
+            />
+             <FAB
+                style={styles.fab}
+                icon="face-profile"
+                color="black"
+                onPress={() => navigation.navigate("Home")}
+            />
+            
+        </View>
+    )
+}
 export default MessagesScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center'
+   img:{width:60,height:60,borderRadius:30,backgroundColor:"green"},
+   text:{
+       fontSize:18,
+       marginLeft:15,
+   },
+   mycard:{
+       flexDirection:"row",
+       margin:3,
+       padding:4,
+       backgroundColor:"white",
+       borderBottomWidth:1,
+       borderBottomColor:'grey'
+   },
+   fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor:"white"
   },
-});
+ });

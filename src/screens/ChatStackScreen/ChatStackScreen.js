@@ -3,6 +3,7 @@ import React from 'react';
 import ChatList from '../ChatList/ChatList';
 import ChatScreen from '../ChatScreen/ChatScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 const Stack = createNativeStackNavigator();
 const ProfileStackScreen = () => {
   return (

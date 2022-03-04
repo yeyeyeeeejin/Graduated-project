@@ -105,7 +105,7 @@ export const AuthProvider = ({children}) => {
             console.log({error});
           }
         },*/
-        register: async (email, password,phone,name,age,about,birthday) => {
+        register: async (email, password,phone,name,age,about,birthday,userId) => {
           try {
             await auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
@@ -115,6 +115,7 @@ export const AuthProvider = ({children}) => {
                   email: email,
                   phone: phone,
                   age: age,
+                  userId: auth().currentUser.uid,
                   point: null,
                   about: null,
                   birthday: null,

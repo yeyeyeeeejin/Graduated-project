@@ -9,7 +9,7 @@ javac 1.8.0_211<br>
 Android Debug Bridge version 1.0.41<br>
 Version 31.0.3-7562133<br>
 
-#사용방법<br/>
+#사용방법<br/> **
  npm install => npm run android 
 
 파이어스토어 기반 회원가입 구축 현재 구글 로그인 구현, 카카오톡은 구현중 에러가 많이나서 나중에 구현 예정

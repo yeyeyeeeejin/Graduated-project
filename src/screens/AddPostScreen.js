@@ -67,7 +67,7 @@ const AddPostScreen = () => {
     firestore()
     .collection('posts')
     .add({
-      userId: user.uid,
+      uid: user.uid,
       post: post,
       postImg: imageUrl,
       postTime: firestore.Timestamp.fromDate(new Date()),

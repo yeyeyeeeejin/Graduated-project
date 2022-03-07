@@ -51,7 +51,7 @@ const PostCard = ({item, onDelete, onPress}) => {
   const getUser = async () => {
     await firestore()
       .collection('users')
-      .doc(item.userId)
+      .doc(item.uid)
       .get()
       .then((documentSnapshot) => {
         if (documentSnapshot.exists) {
@@ -108,7 +108,7 @@ const PostCard = ({item, onDelete, onPress}) => {
           <Ionicons name="md-chatbubble-outline" size={25} />
           <InteractionText>{commentText}</InteractionText>
         </Interaction>
-        {user.uid == item.userId ? (
+        {user.uid == item.uid ? (
           <Interaction onPress={() => onDelete(item.id)}>
             <Ionicons name="md-trash-bin" size={25} />
           </Interaction>

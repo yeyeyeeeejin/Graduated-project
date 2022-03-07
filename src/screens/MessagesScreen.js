@@ -3,12 +3,13 @@ import { View, Text ,Image,FlatList,StyleSheet,TouchableOpacity} from 'react-nat
 import firestore from '@react-native-firebase/firestore'
 import {FAB} from 'react-native-paper'
 import { AuthContext } from '../utils/AuthProvider'
+
 const MessagesScreen = ({navigation}) => {
-    // console.log(user)
+     console.log(user)
     const [users,setUsers] = useState(null)
     const {user, logout} = useContext(AuthContext);
     const getUsers = async ()=>{
-             const querySanp = await firestore().collection('users').where('userId','!=',user.uid).get()
+             const querySanp = await firestore().collection('users').where('uid','!=', user.uid).get()
              const allusers = querySanp.docs.map(docSnap=>docSnap.data())
             //  console.log(allusers)
             setUsers(allusers)
@@ -20,7 +21,7 @@ const MessagesScreen = ({navigation}) => {
 
     const RenderCard = ({item})=>{
           return (
-              <TouchableOpacity onPress={()=>navigation.navigate('CHAT',{name:item.name,userId:item.userId,
+              <TouchableOpacity onPress={()=>navigation.navigate('CHAT',{name:item.name,uid:item.uid,
                 
             })}>
               <View style={styles.mycard}>
@@ -42,13 +43,13 @@ const MessagesScreen = ({navigation}) => {
             <FlatList 
               data={users}
               renderItem={({item})=> {return <RenderCard item={item} /> }}
-              keyExtractor={(item)=>item.userId}
+              keyExtractor={(item)=>item.uid}
             />
              <FAB
                 style={styles.fab}
                 icon="face-profile"
                 color="black"
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => navigation.navigate('Home')}
             />
             
         </View>
@@ -57,7 +58,7 @@ const MessagesScreen = ({navigation}) => {
 export default MessagesScreen;
 
 const styles = StyleSheet.create({
-   img:{width:60,height:60,borderRadius:30,backgroundColor:"green"},
+   img:{width:60,height:60,borderRadius:30,backgroundColor:"white"},
    text:{
        fontSize:18,
        marginLeft:15,

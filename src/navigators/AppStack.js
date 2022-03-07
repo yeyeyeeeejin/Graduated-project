@@ -7,7 +7,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import SearchScreen from '../screens/SearchScreen/SearchScreen';
 import StoreScreen from '../screens/StoreScreen/Store';
@@ -92,15 +91,19 @@ const FeedStack = ({navigation}) => (
 
 const MessageStack = ({navigation}) => (
   <Stack.Navigator>
-    <Stack.Screen name="MESSAGE" component={MessagesScreen} />
+    <Stack.Screen name="MESSAGE">
+      {props => <MessagesScreen {...props} /> }
+    </Stack.Screen>
     <Stack.Screen
       name="CHAT"
-      component={ChatScreen}
+      
       options={({route}) => ({
-        title: route.params.userName,
+        title: route.params.name,
         headerBackTitleVisible: false,
       })}
-    />
+    >
+      {props => <ChatScreen {...props}  /> }
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
@@ -127,8 +130,14 @@ const ProfileStack = ({navigation}) => (
         },
       }}
     />
+
+
   </Stack.Navigator>
+  
+  
 );
+
+
 
 const AppStack = () => {
   const getTabBarVisibility = (route) => {

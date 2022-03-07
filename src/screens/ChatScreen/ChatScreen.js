@@ -1,9 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import {StyleSheet, Text, View} from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat'
-const ChatScreen= (route) => {
+import React,{useState,useEffect,useContext} from 'react'
+import { View, Text } from 'react-native'
+import { GiftedChat,Bubble,InputToolbar} from 'react-native-gifted-chat'
+import firestore from '@react-native-firebase/firestore'
+import { AuthContext } from '../../utils/AuthProvider'
+export default function ChatScreen({route}) {
   const [messages, setMessages] = useState([]);
   const {uid} = route.params;
+  const {user, logout} = useContext(AuthContext);
   const getAllMessages = async ()=>{
      const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
      const querySanp = await firestore().collection('chatrooms')
@@ -22,7 +25,7 @@ const ChatScreen= (route) => {
  
   }
  useEffect(() => {
-   // getAllMessages()
+    getAllMessages()
 
    const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
      const messageRef = firestore().collection('chatrooms')
@@ -66,7 +69,7 @@ const ChatScreen= (route) => {
          createdAt:new Date()
      }
     setMessages(previousMessages => GiftedChat.append(previousMessages,mymsg))
-    const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
+    const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+ user.uid 
 
     firestore().collection('chatrooms')
     .doc(docid)
@@ -88,7 +91,7 @@ const ChatScreen= (route) => {
                  {...props}
                  wrapperStyle={{
                    right: {
-                     backgroundColor:"green",
+                     backgroundColor:"#8a2be2",
 
                    }
                    
@@ -98,7 +101,7 @@ const ChatScreen= (route) => {
 
              renderInputToolbar={(props)=>{
                  return <InputToolbar {...props}
-                  containerStyle={{borderTopWidth: 1.5, borderTopColor: 'green'}} 
+                  containerStyle={{borderTopWidth: 1.5, borderTopColor: '#8a2be2'}} 
                   textInputStyle={{ color: "black" }}
                   />
              }}
@@ -108,4 +111,3 @@ const ChatScreen= (route) => {
  )
 }
 
-export default ChatScreen;

@@ -14,6 +14,7 @@ import ChatStackScreen from '../screens/ChatStackScreen/ChatStackScreen'
 import SettingScreen from '../screens/SettingScreen/SettingScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import ProfileStackScreen from '../screens/ProfileStackScreen/ProfileStackScreen';
 import EditProfile from '../screens/EditProfile/EditProfile';
 import ChatScreen from '../screens/ChatScreen/ChatScreen';
 import MessagesScreen from '../screens/MessagesScreen';
@@ -69,7 +70,7 @@ const FeedStack = ({navigation}) => (
     />
     <Stack.Screen
       name="Home"
-      component={ProfileScreen}
+      component={ProfileStackScreen}
       options={{
         title: '',
         headerTitleAlign: 'center',
@@ -111,7 +112,7 @@ const ProfileStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ProfileScreen"
-      component={ProfileScreen}
+      component={ProfileStackScreen}
       options={{
         headerShown: false,
       }}

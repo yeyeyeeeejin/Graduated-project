@@ -50,7 +50,7 @@ const MessagesScreen = ({navigation}) => {
           )
     }
     return (
-        
+     
             <Container>
             <FlatList 
               data={users}
@@ -64,9 +64,9 @@ const MessagesScreen = ({navigation}) => {
                     <TextSection>
                       <UserInfoText>
                         <UserName>{item.name}</UserName>
-                        <PostTime>{item.uid}</PostTime>
+                        <PostTime>last time</PostTime>
                       </UserInfoText>
-                      <MessageText>{item.email}</MessageText>
+                      <MessageText>last message</MessageText>
                     </TextSection>
                   </UserInfo>
                 </Card>

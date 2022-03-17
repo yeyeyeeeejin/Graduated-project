@@ -77,8 +77,7 @@ const AddPostScreen = () => {
     .then(() => {
       console.log('Post Added!');
       Alert.alert(
-        'Post published!',
-        'Your post has been published Successfully!',
+        '게시물 업데이트 완료!',
       );
       setPost(null);
     })
@@ -144,7 +143,7 @@ const AddPostScreen = () => {
         {image != null ? <AddImage source={{uri: image}} /> : null}
 
         <InputField
-          placeholder="What's on your mind?"
+          placeholder="게시물 내용을 작성하세요!"
           multiline
           numberOfLines={4}
           value={post}

@@ -18,6 +18,8 @@ import ProfileStackScreen from '../screens/ProfileStackScreen/ProfileStackScreen
 import EditProfile from '../screens/EditProfile/EditProfile';
 import ChatScreen from '../screens/ChatScreen/ChatScreen';
 import MessagesScreen from '../screens/MessagesScreen';
+import Header from '../Chat/Components/common/Header';
+import ChatNavigator from '../Chat/ChatNavigator'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -92,9 +94,11 @@ const FeedStack = ({navigation}) => (
 
 const MessageStack = ({navigation}) => (
   <Stack.Navigator>
-    <Stack.Screen name="MESSAGE">
-      {props => <MessagesScreen {...props} /> }
-    </Stack.Screen>
+    <Stack.Screen name="Message"  component={ChatNavigator} options={{
+				headerShown: true,
+				header: () => <Header title="채팅" />
+			}} />
+    
     <Stack.Screen
       name="CHAT"
       

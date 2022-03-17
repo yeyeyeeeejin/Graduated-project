@@ -101,7 +101,7 @@ const AddPostScreen = () => {
     setUploading(true);
     setTransferred(0);
 
-    const storageRef = storage().ref(`photos/${filename}`);
+    const storageRef = storage().ref(`posts/${filename}`);
     const task = storageRef.putFile(uploadUri);
 
     // Set transferred state

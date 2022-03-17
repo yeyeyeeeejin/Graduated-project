@@ -15,12 +15,12 @@ import Animated, {
 	useAnimatedStyle,
 } from "react-native-reanimated";
 
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import EmojiPicker from "./emojis/EmojiPicker";
 
 import { useKeyboard } from "@react-native-community/hooks";
 
-import { theme } from "../../theme";
+import { theme } from "../../ChatTheme";
 
 const ChatInput = ({ reply, closeReply, isLeft, username }) => {
 	const [message, setMessage] = useState("");

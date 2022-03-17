@@ -12,7 +12,7 @@ import Animated, {
 	useSharedValue
 } from "react-native-reanimated";
 
-import { theme } from "../../theme";
+import { theme } from "../../ChatTheme";
 
 const Message = ({ time, isLeft, message, onSwipe }) => {
 	const startingPosition = 0;

@@ -1,20 +1,41 @@
-import React from "react";
+import React, {useContext,useState,useEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Icon from "@expo/vector-icons/FontAwesome";
-
-import { theme } from "../../theme";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { AuthContext } from "../../../utils/AuthProvider";
+import { theme } from "../../ChatTheme";
+import firestore from '@react-native-firebase/firestore'
+import MessagesScreen from "../../../screens/MessagesScreen";
 
 const ChatHeader = ({ username, bio, picture, onlineStatus, onPress }) => {
+	const {user, logout} = useContext(AuthContext);
+	const [userData, setUserData] = useState(null);
+	const getUser = async() => {
+		const currentUser = await firestore()
+		.collection('users')
+		.doc(user.uid)
+		.get()
+		.then((documentSnapshot) => {
+		  if( documentSnapshot.exists ) {
+			console.log('User Data', documentSnapshot.data());
+			setUserData(documentSnapshot.data());
+		  }
+		})
+	  }
+	
+	  useEffect(() => {
+		getUser();
+	  }, []);
 	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity style={styles.backButton} onPress={onPress}>
+			<TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Message')}>
 				<Icon name="angle-left" size={30} color={theme.colors.white} />
 			</TouchableOpacity>
 			<View style={styles.profileOptions}>
 				<TouchableOpacity style={styles.profile}>
-					<Image style={styles.image} source={{ uri: picture }} />
+				<Image style={styles.image} source={{ uri: picture }} />
+					
 					<View style={styles.usernameAndOnlineStatus}>
 						<Text style={styles.username}>{username}</Text>
 						<Text style={styles.onlineStatus}>{onlineStatus}</Text>
@@ -50,8 +71,8 @@ const ChatHeader = ({ username, bio, picture, onlineStatus, onPress }) => {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		backgroundColor: theme.colors.primary,
-		paddingTop: 40,
+		backgroundColor: '#FF6347',
+		
 		paddingBottom: 10,
 	},
 	backButton: {
@@ -82,6 +103,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 	},
 	username: {
+		
 		color: theme.colors.white,
 		fontSize: 18,
 		fontWeight: "bold",

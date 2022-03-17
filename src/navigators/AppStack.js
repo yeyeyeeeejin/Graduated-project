@@ -103,8 +103,8 @@ const MessageStack = ({navigation}) => (
       name="CHAT"
       
       options={({route}) => ({
-        title: route.params.name,
-        headerBackTitleVisible: false,
+        
+        headerShown: false,
       })}
     >
       {props => <ChatScreen {...props}  /> }
@@ -160,6 +160,8 @@ const AppStack = () => {
     <Tab.Navigator screenOptions={{headerShown: false}}
       tabBarOptions={{
         activeTintColor: '#2e64e5',
+        keyboardHidesTabBar: true,
+        
       }}>
             <Tab.Screen
         name="Home"

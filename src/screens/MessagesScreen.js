@@ -51,11 +51,14 @@ const MessagesScreen = ({navigation}) => {
       return (
         <View style={styles.container}>
         <TouchableOpacity style={styles.conversation}
-        onPress={() => navigation.navigate('CHAT', {name:item.name,uid:item.uid})}>
+        onPress={() => navigation.navigate('CHAT', {name:item.name,uid:item.uid,img:item.userImg,
+        
+      })}>
+
           <TouchableOpacity 
             onPress={() => setModalVisible(currentValue => !currentValue)}
             style={[styles.imageContainer]}>
-            <Image style={styles.image} source={{ uri: item.userImg }} />
+            <Image source={{ uri: item.userImg }} style={styles.img} />
           </TouchableOpacity>
           <View style={{
               flex: 1,
@@ -101,7 +104,7 @@ return (
 
 export default MessagesScreen
 const styles = StyleSheet.create({
-img:{width:60,height:60,borderRadius:30,backgroundColor:"white"},
+img:{width:60,height:60,borderRadius:30,backgroundColor:"orange"},
 text:{
    fontSize:18,
    marginLeft:15,

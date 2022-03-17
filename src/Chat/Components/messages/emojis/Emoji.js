@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 
-import shortnameToUnicode from '../../../helpers/shortnameToUnicode';
+import shortnameToUnicode from '../../../ChatHelpers/shortnameToUnicode';
 
 const Emoji = ({ item }) => {
 	return (

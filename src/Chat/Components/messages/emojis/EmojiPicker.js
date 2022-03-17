@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import { View, Text, useWindowDimensions } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 
-import categories from '../../../data/categories';
+import categories from '../../../ChatData/categories';
 
 import EmojiCategory from './EmojiCategory';
 import TabBar from './TabBar';

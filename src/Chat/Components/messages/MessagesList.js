@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 
 import Message from "./Message";
 
-import { theme } from "../../theme";
+import { theme } from "../../ChatTheme";
 
 const MessagesList = ({ onSwipeToReply }) => {
 	const [messages, setMessages] = useState([

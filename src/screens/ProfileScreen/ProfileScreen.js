@@ -42,7 +42,7 @@ const ProfileScreen = () => {
     navigation.navigate('EditProfile');
 };
   const onMusicPressed = () => {
-  console.log(name);
+ 
     navigation.navigate('Music');
 };
 const onEditFriendPressed = () => {
@@ -56,7 +56,7 @@ const onDiarypress = () => {
   navigation.navigate('Diary');
 };
 const onalbumpress = () => {
-  console.log({name});
+ 
   navigation.navigate('Album');
 };
 const onFollowpress = () => {

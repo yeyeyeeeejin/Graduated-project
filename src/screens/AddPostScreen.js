@@ -10,7 +10,7 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import firebase from '@react-native-firebase/app'
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
@@ -66,13 +66,16 @@ const AddPostScreen = () => {
 
     firestore()
     .collection('posts')
+    .doc('Allposts')
+    .collection("userPosts")
     .add({
+      
       uid: user.uid,
       post: post,
       postImg: imageUrl,
       postTime: firestore.Timestamp.fromDate(new Date()),
-      likes: null,
-      comments: null,
+      likes: 0,
+      comments: 0,
     })
     .then(() => {
       console.log('Post Added!');

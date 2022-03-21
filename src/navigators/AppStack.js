@@ -29,9 +29,9 @@ const FeedStack = ({navigation}) => (
       name="FREE SNS"
       component={HomeScreen}
       options={{
-        headerTitleAlign: 'center',
+        
         headerTitleStyle: {
-          color: '#2e64e5',
+          color: '#FF6347',
           fontSize: 18,
         },
         headerStyle: {
@@ -44,7 +44,7 @@ const FeedStack = ({navigation}) => (
               name="plus"
               size={22}
               backgroundColor="#fff"
-              color="#2e64e5"
+              color="#FF6347"
               onPress={() => navigation.navigate('AddPost')}
             />
           </View>
@@ -80,6 +80,7 @@ const FeedStack = ({navigation}) => (
           backgroundColor: '#fff',
           shadowColor: '#fff',
           elevation: 0,
+          
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (

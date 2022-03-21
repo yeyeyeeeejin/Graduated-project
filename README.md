@@ -21,35 +21,3 @@ Version 31.0.3-7562133<br>
 2022/03/14 - 채팅 부분 업데이트 성공적으로 채팅 가능 유저 정보도 정확 마지막 메세지 , 시간 업데이트 필요
 
 
-** 파이어스토어 데이터 참조해서 사용하는법 **
-
-import { AuthContext } from '../../utils/AuthProvider';
-import firestore from '@react-native-firebase/firestore'; 추가
-
-
-const {user, logout} = useContext(AuthContext);  선언, 생성
-const [userData, setUserData] = useState(null);
-
-const getUser = async() => {     
-    const currentUser = await firestore()
-    .collection('users')
-    .doc(user.uid)
-    .get()
-    .then((documentSnapshot) => {
-      if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
-        setUserData(documentSnapshot.data());
-      }
-    })
-  }
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-불러오는 방식 예) 이름 = {userData ? userData.name : ''}
-                  <Text style={styles.titleText}>{userData ? userData.name : ''}님의 미니홈피</Text>    
-
-                 이미지 = source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}/>
-
- 잘 모르겠으면 ProfileScreen, EditProfile 참고                

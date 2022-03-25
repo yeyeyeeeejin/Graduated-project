@@ -88,7 +88,7 @@ const onMiniroompress = () => {
         <View style={styles.titlecontainer}>
           <View style={styles.leftcontainer}>
             <TouchableOpacity onPress={() => onprofilePressed()}>
-              <Image style={styles.userImg} source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}/>
+              <Image style={styles.userImg} source={{uri: userData ? userData.userImg : 'https://firebasestorage.googleapis.com/v0/b/graduated-project-ce605.appspot.com/o/AppImage%2Fprofile.jpg?alt=media&token=719929c2-defb-4cbf-99ca-fddd21bfeaa4' }}/>
             </TouchableOpacity>
           
           

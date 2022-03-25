@@ -9,6 +9,25 @@ const Miniroom = () => {
   const [coatimageVar, setcoatImageVar] = useState(0);
   const [shoesimageVar, setshoesImageVar] = useState(0); 
   const [backimageVar, setbackImageVar] = useState(0); 
+  const [shopData, setShopData] = useState(null);
+/*
+  const getShop = async() => {
+    const currentShop = await firestore()
+    .collection('shops')
+    .doc('6whPr4AFHy9utdKEXgqq')
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+       
+        setShopData(documentSnapshot.data());
+      }
+    })
+  }
+
+  useEffect(() => {
+    getShop();
+  }, []);
+  */
   const changehat=()=> {
     hatimageVar == (hat.length - 1) ? sethatImageVar(0) : sethatImageVar(hatimageVar + 1);
     console.log(hat[hatimageVar].image);

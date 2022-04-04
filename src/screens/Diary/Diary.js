@@ -1,52 +1,94 @@
+
 import { View, Text,TouchableOpacity,StyleSheet,SafeAreaView,} from 'react-native';
-import React from 'react';
-import {CalendarList} from 'react-native-calendars';
+import React, { useState,useEffect } from 'react';
+import {Agenda} from 'react-native-calendars';
+import { Card } from 'react-native-paper';
+
+const timeToString =(time)=> {
+   const date =new Date(time);
+  return date.toISOString().split('T')[0];
+};
 
 const Diary = () => {
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
-const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};//임의
+
+  const [items,setItems]=useState({
+    '2022-04-01':[{name: 'test1', cookies:true}],
+    '2022-04-02':[{name: 'test2', cookies:false}],
+  });
+  useEffect(() => {
+    //run once
+    const getData= async () =>{
+      const response = await
+      fetch('https://jsonplaceholder.typicode.com/posts');//짭 api
+    const data  = await response.json();
+
+    console.log(data);
+  };
+    getData();
+  },[]);
+
+
+
+  const loadItems=(day)=>{
+    setTimeout(()=>{
+      for(let i=-15; i<85; i++){
+        const time =day.timestamp + i *24 *60*60*1000;
+        const strTime =timeToString(time);
+        if(!items[strTime]){
+          items[strTime]=[];
+          const numItems =Math.floor(Math.random()*3+1);
+          for(let j=0;j<numItems;j++){
+            items[strTime].push({
+              name:'Itmea for' + strTime +'#'+j,
+            height:Math.max(50,Math.floor(Math.random()*150)),
+            });
+          }
+        }
+      }
+    const newItems ={};
+    Object.keys(items).forEach((key)=>{newItems[key]=items[key];});
+    setItems(newItems);
+  },1000);
+}
+   
+const renderItem = (item : Item )=>{
+  return (
+    <View Style={styles.itemConstainer}>
+    <Card>
+    <Card.Content>
+    <Text>{item.name}</Text>
+    <Text>{item.cookies ? '🌮🥙🍕🍇':'🍤🍙🍔🍭'}</Text>
+    </Card.Content>
+    </Card>
+    </View>
+  );
+};
+
     return (
-      <SafeAreaView style={styles.container}>
-      <CalendarList style={styles.calendarList}
-  // Enable horizontal scrolling, default = false
-  horizontal={true}
-  // Enable paging on horizontal, default = false
-  pagingEnabled={true}
-   // Max amount of months allowed to scroll to the past. Default = 50
-   pastScrollRange={12}
-  // Max amount of months allowed to scroll to the future. Default = 50
-  futureScrollRange={12}
-  // Set custom calendarWidth.
-  calendarWidth={400}
-  markingType={'multi-dot'}
-  markedDates={{
-    '2022-03-25': {dots: [vacation, massage]},
-    '2022-03-26': {dots: [massage],}
-  }}
-/>
-        <View style={styles.memo}>
-          
-        </View>
+      <SafeAreaView style={{flex:1}}>
+      <Agenda 
+      items={items}
+      loadItemsForMonth={loadItems}
+      selected={'2022-04-01'}
+      renderItem={renderItem}
+      //renderItem={this.renderItem.bind(this)}
+      //renderEmptyDate={this.renderEmptyDate.bind(this)}
+      //rowHasChanged={this.rowHasChanged.bind(this)}
+      />
       </SafeAreaView>
   );
 };
 
 export default Diary;
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column', 
-      backgroundColor: '#fff',
-      padding: 20,
-      borderWidth: 1,
+  items:{
+    marginRight:10,
+    marginTop:17
+  },
+  memoCard:{
+    flexDirection: 'row',
+    justifyContent:'space-between', 
+    alignItems:'center',
+  },
 
-    },
-    title:{
-      flexDirection: 'row', // 혹은 'column'
-      flex: 1,
-    },
-    calendarList:{
-
-
-    },
   });

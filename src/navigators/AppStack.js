@@ -20,6 +20,7 @@ import ChatScreen from '../screens/ChatScreen/ChatScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import Header from '../Chat/Components/common/Header';
 import ChatNavigator from '../Chat/ChatNavigator'
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

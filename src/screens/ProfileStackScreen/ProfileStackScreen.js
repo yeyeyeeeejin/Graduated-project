@@ -10,6 +10,7 @@ import Follow from '../Follow/Follow';
 import Miniroom from '../Miniroom/Miniroom';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AddDiary from '../Diary/AddDiary';
 const Stack = createNativeStackNavigator();
 const ProfileStackScreen = () => {
   return (
@@ -23,6 +24,7 @@ const ProfileStackScreen = () => {
                 <Stack.Screen name='Weblog' component={Weblog}/>
                 <Stack.Screen name='Follow' component={Follow}/>
                 <Stack.Screen name='Miniroom' component={Miniroom}/>
+                <Stack.Screen name='AddDiary' component={AddDiary}/>
             </Stack.Navigator>
   );
 };

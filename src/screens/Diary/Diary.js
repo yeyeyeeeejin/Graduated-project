@@ -1,5 +1,5 @@
 
-import { View, Text,TouchableOpacity,StyleSheet,SafeAreaView,} from 'react-native';
+import { View, Text,TouchableOpacity,StyleSheet,SafeAreaView,Image} from 'react-native';
 import React, { useState,useEffect } from 'react';
 import {Agenda} from 'react-native-calendars';
 import { Card } from 'react-native-paper';
@@ -49,12 +49,15 @@ const Diary = () => {
     setItems(newItems);
   },1000);
 }*/
-   
+
+//지우고 js파일 만들기 --> DiaryStyles.js
 const renderItem = (item : Item )=>{
   return (
     <TouchableOpacity Style={styles.itemConstainer}>
     <Card>
     <Card.Content>
+    <Image source={{uri: 'https://t1.daumcdn.net/cafeattach/MT4/648d42cb50cafc47f7d02fdfc380f91449afca84'}}
+       style={{width:200, height: 150,marginTop:0}}/>
     <Text>{item.name}</Text>
     <Text>{item.cookies ? '🌮🥙🍕🍇':'🍤🍙🍔🍭'}</Text>
     </Card.Content>
@@ -66,16 +69,17 @@ const renderItem = (item : Item )=>{
     return (
       <SafeAreaView style={{flex:1}}>
       <Agenda 
+      markingType={'custom'}
       items={items}
       renderItem={renderItem}
       minDate={'2022-01-01'}
       maxDate={'2022-08-28'}
-      //loadItemsForMonth={loadItems}
-      //selected={'2022-04-01'}
-
-      //renderItem={this.renderItem.bind(this)}
-      //renderEmptyDate={this.renderEmptyDate.bind(this)}
-      //rowHasChanged={this.rowHasChanged.bind(this)}
+      pastScrollRange={5}
+      futureScrollRange={5}
+      theme={{
+      todayTextColor: '#FFA500',
+      selectedDayBackgroundColor: '#FFA500',
+      }}
       />
         <ActionButton buttonColor="rgb(255, 165, 0)" title="다이어리작성" onPress={()=> navigation.navigate('AddDiary')}>
             <Icon name="createDiary" style={styles.actionButtonIcon} />
@@ -98,5 +102,8 @@ const styles = StyleSheet.create({
       height: 22,
       color: 'white',
     },
+    selectedDay:{
+      backgroundColor:'#FFCC64',
+    }
 
   });

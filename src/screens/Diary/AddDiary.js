@@ -1,12 +1,22 @@
 import { View, Text,TouchableOpacity,StyleSheet,SafeAreaView,Button} from 'react-native';
 import React, { useState,useEffect } from 'react';
-import { TextInput } from 'react-native-gesture-handler';
 import { InputFieldDiary, InputTitle, InputWrapper,Boundary, SubmitBtn, SubmitBtnText, DiaryBtn, DiaryBtnText, DiaryBtnWapper } from '../../../styles/AddPost';
-import { fonts } from 'react-native-elements/dist/config';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import ImagePicker from 'react-native-image-crop-picker';
+import { AuthContext } from '../utils/AuthProvider';
 
 const AddDiary = () =>{
+
+    const navigation = useNavigation();
+
+    const {user, logout} = useContext(AuthContext);
+  
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+    const [title,setTitle]=useState(null);
+    const [diary, setDiary] = useState(null);
+
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           width: 1200,
@@ -31,6 +41,90 @@ const AddDiary = () =>{
         });
       };
     
+    
+      const submitDiary = async () => {
+        const currentuserId = firebase.auth().currentUser.uid
+        const imageUrl = await uploadImage();
+        console.log('Image Url: ', imageUrl);
+        console.log('Diary: ', Diary);
+    
+        firestore()
+        .collection('Diary')
+        .Document('???')
+        .add({
+          
+          uid: user.uid,
+          title:title,
+          diary: diary,
+          postImg: imageUrl,
+          postTime: firestore.Timestamp.fromDate(new Date()),
+
+        })
+        .then(() => {
+          console.log('Diary Added!');
+          Alert.alert(
+            '다이어리 작성완료!',
+          );
+
+          setTitle(null);
+          setDiary(null);
+          navigation.navigate('Diary', {currentuserId: currentuserId});
+        })
+        .catch((error) => {
+          console.log('Something went wrong with added diary to firestore.', error);
+        });
+      }
+    
+      const uploadImage = async () => {
+        if( image == null ) {
+          return null;
+        }
+        const uploadUri = image;
+        let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+    
+        // Add timestamp to File Name
+        const extension = filename.split('.').pop(); 
+        const name = filename.split('.').slice(0, -1).join('.');
+        filename = name + Date.now() + '.' + extension;
+    
+        setUploading(true);
+        setTransferred(0);
+    
+        const storageRef = storage().ref(`diarys/${filename}`);
+        const task = storageRef.putFile(uploadUri);
+    
+        // Set transferred state
+        task.on('state_changed', (taskSnapshot) => {
+          console.log(
+            `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+          );
+    
+          setTransferred(
+            Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+              100,
+          );
+        });
+    
+        try {
+          await task;
+    
+          const url = await storageRef.getDownloadURL();
+    
+          setUploading(false);
+          setImage(null);
+    
+          // Alert.alert(
+          //   'Image uploaded!',
+          //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
+          // );
+          return url;
+    
+        } catch (e) {
+          console.log(e);
+          return null;
+        }
+    
+      };
     
 
     return(
@@ -70,9 +164,20 @@ const AddDiary = () =>{
             numberOfLines={10}
             />
 
-                <DiaryBtn>
+                <DiaryBtn onPress={submitDiary}>
                     <DiaryBtnText>저장</DiaryBtnText>
                 </DiaryBtn>
+
+                {uploading ? (
+          <StatusWrapper>
+            <Text>{transferred} % Completed!</Text>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </StatusWrapper>
+        ) : (
+          <SubmitBtn onPress={submitPost}>
+            <SubmitBtnText>Post</SubmitBtnText>
+          </SubmitBtn>
+        )}
             </InputWrapper>
         </SafeAreaView>
     );

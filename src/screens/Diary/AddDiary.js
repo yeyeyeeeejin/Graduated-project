@@ -3,7 +3,7 @@ import React, { useState,useEffect } from 'react';
 import { InputFieldDiary, InputTitle, InputWrapper,Boundary, SubmitBtn, SubmitBtnText, DiaryBtn, DiaryBtnText, DiaryBtnWapper } from '../../../styles/AddPost';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import ImagePicker from 'react-native-image-crop-picker';
-import { AuthContext } from '../utils/AuthProvider';
+import { AuthContext } from '../../utils/AuthProvider';
 
 const AddDiary = () =>{
 

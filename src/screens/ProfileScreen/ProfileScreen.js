@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducer';
+import MarqueeText from 'react-native-marquee';
+
 
 import {
   View,
@@ -16,8 +18,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import { AuthContext } from '../../utils/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-import MarqueeText from 'react-native-marquee';
+
 const ProfileScreen = () => {
 
   const {user, logout} = useContext(AuthContext);
@@ -108,21 +109,32 @@ const onMiniroompress = () => {
           
           <View style={styles.rightcontainer}>
             <View style={styles.action}>
-            <Text>이름                     {userData ? userData.name : ''}</Text>
+            <Text style={styles.userInfoTitle}>이름</Text>
+            <Text style= {styles.userinfoText}> {userData ? userData.name : ''}</Text>
             </View>
             
             <View style={styles.action}>
-            <Text>나이                          {userData ? userData.age : ''}</Text>
+            <Text style={styles.userInfoTitle}>나이</Text>
+            <Text style= {styles.userinfoText}>{userData ? userData.age : ''}</Text>
             </View>
             <View style={styles.action}>
-            <Text>생일                  {userData ? userData.birthday : ''}</Text>
+            <Text style={styles.userInfoTitle}>생일</Text>
+            <Text style= {styles.userinfoText}>{userData ? userData.birthday : ''}</Text>
             </View>
             <View style={styles.action}>
-            <Text>Today                        0</Text>
+            <Text style={styles.userInfoTitle}>Today</Text>
+            <Text style= {styles.userinfoText}>0</Text>
             </View>
             <View style={styles.action}>
-            <Text>오늘의 기분             행복</Text>
+            <Text style={styles.userInfoTitle}>오늘의 기분</Text>
+            <Text style= {styles.userinfoText}> 행복</Text>
             </View>
+            <TouchableOpacity onPress={() => onEditFriendPressed()}>
+          <View style={styles.action}>
+          <Text style={styles.userInfoTitle}>내 친구</Text>
+          <Text style= {styles.userinfoText}>4</Text>
+          </View>
+          </TouchableOpacity>
             
             </View>
           </View> 
@@ -130,26 +142,7 @@ const onMiniroompress = () => {
        
         
 
-        <View style={styles.userInfoWrapper}>
-        <TouchableOpacity onPress={() => onEditFriendPressed()}>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>10</Text>
-            <Text style={styles.userInfoSubTitle}>친구관리</Text>
-          </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onFollowpress()}>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>10,000</Text>
-            <Text style={styles.userInfoSubTitle}>Followers</Text>
-          </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onFollowpress()}>
-          <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>100</Text>
-            <Text style={styles.userInfoSubTitle}>Following</Text>
-          </View>
-          </TouchableOpacity>
-        </View>
+
         <View style={styles.userBtnWrapper}>
               <TouchableOpacity style={styles.userBtn} onPress={() => onDiarypress()}>
                 <Text style={styles.userBtnTxt}>다이어리</Text>
@@ -175,29 +168,39 @@ const onMiniroompress = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+  };
+/*
+         <TouchableOpacity onPress={() => onFollowpress()}>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoTitle}>10,000</Text>
+            <Text style={styles.userInfoSubTitle}>Followers</Text>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => onFollowpress()}>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoTitle}>100</Text>
+            <Text style={styles.userInfoSubTitle}>Following</Text>
+          </View>
+          </TouchableOpacity>
+*/
 
 export default ProfileScreen;
 const styles = StyleSheet.create({
   titlecontainer: {
     flex: 1,
-    flexDirection: 'row', // 혹은 'column'
+    flexDirection: 'row', // 혹은 'column'    
   },
   leftcontainer: {
     flex:0.7,
     justifyContent: 'center',
     alignItems: 'center',
-   
-  },
-  userinfotext: {
-    justifyContent: "center",
-    flexDirection: 'row',
-    alignItems: "center",
+    height:160,
   },
 
   rightcontainer: {
     flex:0.8,
-    
+    marginBottom:10,
+
   },
   container: {
     flex: 1,
@@ -271,10 +274,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   userInfoTitle: {
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: 5,
-    textAlign: 'center',
+    fontFamily:'DungGeunMo',
+    width:120,
+  },
+  userinfoText: {
+    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: "flex-end",
+    fontSize: 14,
   },
   userInfoSubTitle: {
     fontSize: 12,

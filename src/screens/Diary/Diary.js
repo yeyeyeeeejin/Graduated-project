@@ -6,6 +6,8 @@ import { Card } from 'react-native-paper';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 
 const timeToString =(time)=> {
@@ -19,12 +21,11 @@ const Diary = () => {
   const navigation = useNavigation();
 
   const [items,setItems]=useState({
-    '2022-04-04':[
-      {name: 'test1', cookies:true},
-    {name: 'test3', cookies:true}],
-    '2022-04-05':[
-      {name: 'test2', cookies:false},
-    {name: 'test4', cookies:false}],
+    '2022-05-05':[
+      {name: ' ', cookies:true},
+    ],
+
+
   }); 
 
 
@@ -56,10 +57,21 @@ const renderItem = (item : Item )=>{
     <TouchableOpacity Style={styles.itemConstainer}>
     <Card>
     <Card.Content>
-    <Image source={{uri: 'https://t1.daumcdn.net/cafeattach/MT4/648d42cb50cafc47f7d02fdfc380f91449afca84'}}
-       style={{width:200, height: 150,marginTop:0}}/>
+    <View style={styles.diaryTitle}>
+    <Text>내미니룸~</Text>
+    </View>
+    <View style={styles.picContainer}>
+<Image source={{uri: 'https://t1.daumcdn.net/cafeattach/MT4/648d42cb50cafc47f7d02fdfc380f91449afca84'}}
+       style={styles.pic}/>
+    </View>
+       <View style={styles.line}/>
     <Text>{item.name}</Text>
-    <Text>{item.cookies ? '🌮🥙🍕🍇':'🍤🍙🍔🍭'}</Text>
+    <View style={styles.iconContainer}>
+    <Ionicons style={{marginRight:270}}
+     name="heart-outline" size={20} color="#777777"/> 
+    <Ionicons name="share-outline" size={20} color="#777777"/>
+    </View>
+    <Text style={{marginTop:10}}>{item.cookies ? ' my miniroom':'🍤🍙🍔🍭'}</Text>
     </Card.Content>
     </Card>
     </TouchableOpacity>
@@ -96,6 +108,29 @@ const styles = StyleSheet.create({
   itemConstainer:{
     marginRight:10,
     marginTop:17
+    },
+    diaryTitle:{
+      marginBottom:10,
+    },
+    picContainer:{
+      width:200,
+      height:200,
+      marginLeft:50,
+    },
+    pic:{
+      width:'100%',
+      height:'100%',
+
+    },
+    line:{
+      marginTop:10,
+      borderBottomColor: 'gray',
+      borderBottomWidth: 1,
+
+    },
+    iconContainer:{
+      flexDirection: 'row',
+
     },
     actionButtonIcon: {
       fontSize: 20,

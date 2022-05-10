@@ -1,5 +1,5 @@
 import { View, Text,TouchableOpacity,StyleSheet,SafeAreaView,Button} from 'react-native';
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, } from 'react';
 import { InputFieldDiary, InputTitle, InputWrapper,Boundary, SubmitBtn, SubmitBtnText, DiaryBtn, DiaryBtnText, DiaryBtnWapper } from '../../../styles/AddPost';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import ImagePicker from 'react-native-image-crop-picker';

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducer';
 import MarqueeText from 'react-native-marquee';
 import songs from '../../data/songdata';
+import {songT} from '../../components/MusicPlayer/MusicPlayer'
 
 
 import {
@@ -87,16 +88,14 @@ const onMiniroompress = () => {
       
       <TouchableOpacity style={styles.music} onPress={() => onMusicPressed()}>
       <MarqueeText
-          style={{ fontSize: 20 }}
+          style={{ fontSize: 15 }}
           duration={4000}
           marqueeOnStart
           loop
           marqueeDelay={1500}
           marqueeResetDelay={1500}
         >
-            <View style={styles.songMainContainer}>
-        <Text style={styles.songTitle}>{songs[songIndex].title} - {songs[songIndex].artist}</Text>
-    </View>
+        {songs[songIndex].title} - {songs[songIndex].artist}                                                                     {songs[songIndex].title} - {songs[songIndex].artist}                                                .
                 </MarqueeText>
             </TouchableOpacity>
       <ScrollView

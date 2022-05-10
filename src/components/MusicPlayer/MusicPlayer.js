@@ -10,6 +10,7 @@ const MusicPlayer = () => {
     const scrollX =useRef(new Animated.Value(0)).current;
     const [songIndex, setSongIndex]=useState(0);
     const songSlider = useRef(null);
+    const songT=songs[songIndex].title;
     useEffect(() =>{
         scrollX.addListener(({value})=>{
             //console.log('Scroll X',scrollX);

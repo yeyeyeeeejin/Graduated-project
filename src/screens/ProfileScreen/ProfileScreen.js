@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducer';
 import MarqueeText from 'react-native-marquee';
+import songs from '../../data/songdata';
 
 
 import {
@@ -26,6 +27,8 @@ const ProfileScreen = () => {
   const email = useSelector((state: RootState) => state.user.email);
   const name = useSelector((state: RootState) => state.user.name);
   const navigation = useNavigation();
+  const [songIndex, setSongIndex]=useState(0);
+
   
   
   const getUser = async() => {
@@ -91,8 +94,10 @@ const onMiniroompress = () => {
           marqueeDelay={1500}
           marqueeResetDelay={1500}
         >
-        now playing  now playing  now playing  now playing  now playing  now playing  now playing
-        </MarqueeText>
+            <View style={styles.songMainContainer}>
+        <Text style={styles.songTitle}>{songs[songIndex].title} - {songs[songIndex].artist}</Text>
+    </View>
+                </MarqueeText>
             </TouchableOpacity>
       <ScrollView
         style={styles.container}
@@ -213,6 +218,15 @@ const styles = StyleSheet.create({
     height:25,
     marginLeft:25,
     marginRight:25,
+  },
+  songMainContainer:{
+    flex:1,
+    flexDirection: 'row',
+
+  },
+  songTitle:{
+    fontSize:15,
+
   },
   title:{ 
     height:50,
